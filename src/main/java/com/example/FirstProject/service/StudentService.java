@@ -25,15 +25,17 @@ public class StudentService {
         Student student = studentMapper.toStudent(studentRequest);
         return studentRepository.save(student);
     }
-    public Student updateStudent(StudentRequest studentRequest) {
-        Student existingStudent = studentRepository.findById(String.valueOf(studentRequest.getId()))
-                .orElseThrow(() -> new RuntimeException("Student with ID " + studentRequest.getId() + " not found in DB"));
-        Student student = studentMapper.toStudent(studentRequest);
-        return studentRepository.save(student);
+    public Student updateStudent(String id,StudentRequest studentRequest) {
+        Student existingStudent = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student with ID " + studentRequest.getId() + " not found in DB"));
+        existingStudent = studentMapper.toStudent(studentRequest);
+        return studentRepository.save(existingStudent);
     }
     public void deleteStudentbyId(String id){
         studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student with ID " + id +  " not found in DB"));
         studentRepository.deleteById(id);
+    }
+    public Student getStudentByName(String name){
+        return studentRepository.findByIdName(name).orElseThrow(()->new RuntimeException("Cant find name: "+ name+"in DB"));
     }
 }

@@ -6,6 +6,8 @@ import com.example.FirstProject.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/student")
 public class StudentController{
@@ -15,14 +17,20 @@ public class StudentController{
     public Student createStudent(@RequestBody StudentRequest studentRequest){
         return studentService.createStudent(studentRequest);
     }
-//    @PostMapping
-//    public Student updateStudent(@RequestBody StudentRequest studentRequest){
-//        return studentService.updateStudent(studentRequest);
-//    }
+    @PutMapping("/{id}")
+    public Student updateStudent(@PathVariable String id,@RequestBody StudentRequest studentRequest){
+        return studentService.updateStudent(id,studentRequest);
+    }
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable String id){
         studentService.deleteStudentbyId(id);
     }
-
-
+    @GetMapping
+    public List<Student> getAllStudent(){
+        return studentService.getAllStudent();
+    }
+    @GetMapping("/{name}")
+    public Student getStudentByName(@PathVariable String name){
+        return studentService.getStudentByName(name);
+    }
 }
