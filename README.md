@@ -49,3 +49,16 @@ MySQL / PostgreSQL – Database
 JUnit + Mockito – Unit test
 
 API RESTful cho client/web
+
+
+src/
+ ├── main/
+ │   ├── java/com/example/inventory
+ │   │   ├── entity/        # Entity (User, Product, Stock, GR, GI)
+ │   │   ├── enums/         # Enum trạng thái
+ │   │   ├── repository/    # Repository JPA
+ │   │   ├── service/       # Business logic
+ │   │   └── controller/    # REST API
+ │   └── resources/
+ │       └── application.yml # Config DB
+ └── test/                  # Unit test
