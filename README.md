@@ -25,7 +25,7 @@ Mục tiêu là đảm bảo việc quản lý hàng hóa minh bạch, tránh th
 **Ngoài phạm vi**  
 - Quản lý nhiều kho (multi-warehouse)  
 - Quy trình phê duyệt nhiều bước  
-- Tích hợp ERP phức tạp  
+- Tích hợp ERP phức tạp
 
 ---
 
@@ -33,4 +33,10 @@ Mục tiêu là đảm bảo việc quản lý hàng hóa minh bạch, tránh th
 - Spring Boot (Java) – Backend REST API  
 - JPA/Hibernate – ORM mapping  
 - MySQL / PostgreSQL – Database  
-- JUnit + Mockito – Unit test  
+- JUnit + Mockito – Unit test
+
+---
+  ## 👨‍💻 5. Tác giả
+- **Phan Văn Cường**  
+- 📧 Email: cuongsnicky@gmail.com  
+- 🌐 FaceBook:  
