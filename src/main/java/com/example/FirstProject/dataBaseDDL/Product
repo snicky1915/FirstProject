@@ -1,0 +1,15 @@
+CREATE TABLE product (
+    product_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_code    VARCHAR(50) NOT NULL UNIQUE,   -- Mã sản phẩm
+    product_name    VARCHAR(255) NOT NULL,        -- Tên sản phẩm
+    qty             INT DEFAULT 0,                -- Số lượng khởi tạo
+    status          VARCHAR(20),                  -- AVAILABLE, HOLD, EXPIRED...
+
+    -- Common fields
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1) DEFAULT 'N',
+    use_yn          CHAR(1) DEFAULT 'Y'
+);

@@ -1,0 +1,20 @@
+
+CREATE TABLE gr (
+    gr_id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id      BIGINT NOT NULL,
+    request_qty     INT NOT NULL,                 -- Số lượng yêu cầu nhập
+    received_qty    INT NOT NULL,                 -- Số lượng thực nhập
+    order_user      VARCHAR(50),
+    order_dept      VARCHAR(50),
+    order_date      DATE,
+
+    -- Common fields
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1) DEFAULT 'N',
+    use_yn          CHAR(1) DEFAULT 'Y',
+
+    CONSTRAINT fk_gr_product FOREIGN KEY (product_id) REFERENCES product(product_id)
+);

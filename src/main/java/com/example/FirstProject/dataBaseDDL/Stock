@@ -1,0 +1,15 @@
+CREATE TABLE stock (
+    stock_id        BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id      BIGINT NOT NULL,
+    qty             INT DEFAULT 0,                -- Số lượng tồn hiện tại
+
+    -- Common fields
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1) DEFAULT 'N',
+    use_yn          CHAR(1) DEFAULT 'Y',
+
+    CONSTRAINT fk_stock_product FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
