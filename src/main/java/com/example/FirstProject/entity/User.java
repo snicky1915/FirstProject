@@ -2,6 +2,9 @@ package com.example.FirstProject.entity;
 
 import com.example.FirstProject.common.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -18,18 +21,19 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long userId;  // 🔑 Khóa chính
 
-    @Column(name = "username", length = 50, nullable = false, unique = true)
-    private String username;  // 👤 Tên đăng nhập
+    @NotBlank(message = "Username không được để trống")
+    private String username;
 
-    @Column(name = "password", length = 255, nullable = false)
-    private String password;  // 🔑 Mật khẩu (đã mã hóa)
+    @NotBlank(message = "Password không được để trống")
+    @Size(min = 6, message = "Password phải có ít nhất 6 ký tự")
+    private String password;
 
-    @Column(name = "full_name", length = 100)
-    private String fullName;  // 📝 Họ và tên
+    private String fullName;
 
-    @Column(name = "email", length = 100)
-    private String email;     // 📧 Email
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không đúng định dạng")
+    private String email;
 
-    @Column(name = "role", length = 50)
+    @Column(name = "role")
     private String role;      // 🎭 Vai trò (ADMIN / USER / MANAGER)
 }
