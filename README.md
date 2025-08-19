@@ -39,4 +39,8 @@ Mục tiêu là đảm bảo việc quản lý hàng hóa minh bạch, tránh th
   ## 👨‍💻 5. Tác giả
 - **Phan Văn Cường**  
 - 📧 Email: cuongsnicky@gmail.com  
+- 🌐 FaceBook:
+
+- - **Lê Quang Hưng**  
+- 📧 Email: cuongsnicky@gmail.com  
 - 🌐 FaceBook:  
