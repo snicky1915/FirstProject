@@ -41,6 +41,6 @@ Mục tiêu là đảm bảo việc quản lý hàng hóa minh bạch, tránh th
 - 📧 Email: cuongsnicky@gmail.com  
 - 🌐 FaceBook:
 
-- - **Lê Quang Hưng**  
+- **Lê Quang Hưng**  
 - 📧 Email: cuongsnicky@gmail.com  
 - 🌐 FaceBook:  
