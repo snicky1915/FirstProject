@@ -1,0 +1,22 @@
+CREATE TABLE user_his (
+    his_id          BIGINT AUTO_INCREMENT PRIMARY KEY, -- nên đặt khóa chính riêng cho bảng history
+    user_id         BIGINT,                            -- tham chiếu id của user chính
+    username        VARCHAR(50) NOT NULL,
+    password        VARCHAR(255) NOT NULL,
+    full_name       VARCHAR(100),
+    email           VARCHAR(100),
+    user_role       VARCHAR(50), -- ADMIN / USER / MANAGER
+
+    -- Common fields
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1) DEFAULT 'N',
+    use_yn          CHAR(1) DEFAULT 'Y',
+
+    -- History tracking
+    action          VARCHAR(20) NOT NULL,
+    changed_by      VARCHAR(100),
+    changed_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
