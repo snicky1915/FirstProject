@@ -4,6 +4,7 @@ import com.example.FirstProject.dto.request.LoginRequest;
 import com.example.FirstProject.dto.request.RegisterRequest;
 import com.example.FirstProject.entity.User;
 import com.example.FirstProject.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,23 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Autowired
+    public User createUser(User user){
+        return userRepository.save(user);
+    }
+
+    public boolean deleteUser(Long id){
+        if(userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+
+
+
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Dùng BCrypt
