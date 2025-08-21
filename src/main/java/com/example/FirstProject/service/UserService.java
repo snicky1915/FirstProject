@@ -1,8 +1,11 @@
 package com.example.FirstProject.service;
 
+import com.example.FirstProject.common.CrudService;
 import com.example.FirstProject.dto.request.LoginRequest;
 import com.example.FirstProject.dto.request.RegisterRequest;
 import com.example.FirstProject.entity.User;
+import com.example.FirstProject.entity.UserHistory;
+import com.example.FirstProject.repository.UserHistoryRepository;
 import com.example.FirstProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService extends CrudService<User,UserHistory> {
 
     @Autowired
     public User createUser(User user){
@@ -33,7 +36,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Dùng BCrypt
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,UserHistoryRepository  userHistoryRepository, PasswordEncoder passwordEncoder) {
+        // gọi constructor cha CrudService
+        super(userRepository, userHistoryRepository, User.class, UserHistory.class);
+
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -80,5 +86,11 @@ public class UserService {
         }
         return null; // login thất bại
     }
+
+    //tést
+    public String createTestUser(User requestUser) {
+        return this.create(requestUser);
+    }
+
 
 }
