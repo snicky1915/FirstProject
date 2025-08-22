@@ -14,16 +14,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create")
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
-    }
-    public String deleteUser(@PathVariable Long id){
-        boolean delete = userService.deleteUser(id);
-        if(delete){
-            return "User with id" + id + "deleted";
-        } else {
-            return "User not found";
-        }
-    }
+//    @PostMapping("/create")
+//    public User createUser(@RequestBody User user){
+//        return userService.createUser(user);
+//    }
+//    public String deleteUser(@PathVariable Long id){
+//        boolean delete = userService.deleteUser(id);
+//        if(delete){
+//            return "User with id" + id + "deleted";
+//        } else {
+//            return "User not found";
+//        }
+//    }
 }
