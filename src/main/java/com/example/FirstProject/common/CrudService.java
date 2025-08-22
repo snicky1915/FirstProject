@@ -72,6 +72,4 @@ public class CrudService <T,H>{
             return CrudState.FAIL.name();
         }
     }
-
-
 }
