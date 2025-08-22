@@ -30,9 +30,6 @@ public class UserService extends CrudService<User,UserHistory> {
     }
 
 
-
-
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // Dùng BCrypt
 
