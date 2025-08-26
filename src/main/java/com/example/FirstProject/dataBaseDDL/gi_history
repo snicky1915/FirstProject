@@ -1,0 +1,24 @@
+CREATE TABLE gi_history (
+    history_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    gi_id           BIGINT,
+    product_id      BIGINT,
+    request_qty     INT,
+    issued_qty      INT,
+    order_id        VARCHAR(50),
+    order_user_id   VARCHAR(50),
+    order_user_name VARCHAR(100),
+    status          VARCHAR(20),
+
+    -- Common fields
+    created_at      TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1),
+    use_yn          CHAR(1),
+
+    -- History log
+    action          VARCHAR(20),
+    changed_by      VARCHAR(50),
+    changed_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

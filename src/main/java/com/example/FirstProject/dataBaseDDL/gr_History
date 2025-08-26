@@ -1,0 +1,23 @@
+CREATE TABLE gr_history (
+    history_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    gr_id           BIGINT,
+    product_id      BIGINT,
+    request_qty     INT,
+    received_qty    INT,
+    order_user      VARCHAR(50),
+    order_dept      VARCHAR(50),
+    order_date      DATE,
+
+    -- Common fields
+    created_at      TIMESTAMP,
+    created_id      VARCHAR(50),
+    final_update_at TIMESTAMP,
+    final_update_id VARCHAR(50),
+    del_yn          CHAR(1),
+    use_yn          CHAR(1),
+
+    -- History log
+    action          VARCHAR(20),
+    changed_by      VARCHAR(50),
+    changed_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
