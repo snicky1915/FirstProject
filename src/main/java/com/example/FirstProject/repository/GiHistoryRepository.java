@@ -5,5 +5,5 @@ import com.example.FirstProject.entity.GiHistory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GIHistoryRepository extends BaseHistoryRepository<GiHistory,Long> {
+public interface GiHistoryRepository extends BaseHistoryRepository<GiHistory,Long> {
 }
