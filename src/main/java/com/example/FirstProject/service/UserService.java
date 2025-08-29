@@ -34,7 +34,7 @@ public class UserService extends CrudService<User,UserHistory> {
 
     public UserService(UserRepository userRepository,UserHistoryRepository  userHistoryRepository, PasswordEncoder passwordEncoder) {
         // gọi constructor cha CrudService
-        super(userRepository, userHistoryRepository, User.class, UserHistory.class);
+        super(userRepository, userHistoryRepository, UserHistory.class, User::getUserId);
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -82,11 +82,5 @@ public class UserService extends CrudService<User,UserHistory> {
         }
         return null; // login thất bại
     }
-
-    //tést
-    public String createTestUser(User requestUser) {
-        return this.create(requestUser);
-    }
-
 
 }

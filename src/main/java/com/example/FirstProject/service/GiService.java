@@ -11,7 +11,7 @@ public class GiService extends CrudService<Gi, GiHistory> {
     private final GiRepository giRepository;
 
     public GiService(GiRepository giRepository, GiHistoryRepository giHistoryRepository){
-        super(giRepository,giHistoryRepository,Gi.class,GiHistory.class);
+        super(giRepository,giHistoryRepository,GiHistory.class,Gi::getGiId);
         this.giRepository = giRepository;
     }
 }
