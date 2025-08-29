@@ -4,23 +4,22 @@ import com.example.FirstProject.entity.Stock;
 import com.example.FirstProject.service.StockService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class StockController {
+    private final StockService stockService;
+    public StockController(StockService stockService) { this.stockService = stockService; }
 
-    public final StockService stockService;
-    public StockController(StockService stockService){
-        this.stockService = stockService;
-    }
+    @PostMapping("/createStock")
+    public String create(@RequestBody Stock req) { return stockService.createEntity(req); }
 
-    @PostMapping("/auth/create")
-    public Stock create(@RequestBody Stock requestStock){
-        return stockService.create(requestStock);
-    }
+    @PostMapping("/updateStock")
+    public String update(@RequestBody Stock req) { return stockService.updateEntity(req); }
 
-    @PostMapping("/auth/delete")
-    public Stock delete(@RequestBody Stock requestStock){
-        return stockService.create(requestStock);
-    }
+    @PostMapping("/deleteStock")
+    public String delete(@RequestBody Stock req) { return stockService.deleteById(req.getStockId()); }
 }
+

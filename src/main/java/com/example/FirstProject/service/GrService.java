@@ -5,7 +5,9 @@ import com.example.FirstProject.entity.Gr;
 import com.example.FirstProject.entity.GrHistory;
 import com.example.FirstProject.repository.GrHistoryRepository;
 import com.example.FirstProject.repository.GrRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GrService extends CrudService<Gr, GrHistory> {
 
     private final GrRepository grRepository;

@@ -2,28 +2,31 @@ package com.example.FirstProject.controller;
 
 import com.example.FirstProject.entity.Product;
 import com.example.FirstProject.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
 
-    @PostMapping("/create")
-    public String createProduct(@RequestBody Product product){
+    private final ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @PostMapping("/createProduct")
+    public String create(@RequestBody Product product) {
         return productService.createEntity(product);
     }
 
-    @PostMapping("/update")
-    public String updateProduct(@RequestBody Product request){
+    @PostMapping("/updateProduct")
+    public String update( @RequestBody Product request) {
+        request.setProductId(request.getProductId());
         return productService.updateEntity(request);
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/deleteProduct")
     public String deleteProduct(@RequestBody Product request){
-        return productService.deleteProduct(request);
+        return productService.deleteById(request.getProductId());
     }
 }
+
