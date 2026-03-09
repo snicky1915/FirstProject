@@ -5,6 +5,8 @@ import com.example.FirstProject.entity.Product;
 import com.example.FirstProject.entity.ProductHistory;
 import com.example.FirstProject.repository.ProductHistoryRepository;
 import com.example.FirstProject.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +23,9 @@ public class ProductService extends CrudService<Product, ProductHistory> {
                 Product::getProductId            // ✅ idGetter trả về Long
         );
         this.productRepository = productRepository;
+    }
+
+    public Page<Product> getProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }
