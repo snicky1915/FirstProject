@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông báo đơn hàng</title>
+</head>
+<body style="font-family: Arial">
+
+<h2>Xin chào <span th:text="${customerName}"></span> 👋</h2>
+
+<p>Đơn hàng của bạn đã được xác nhận.</p>
+
+<table border="1" cellpadding="8" cellspacing="0"
+       style="border-collapse: collapse; width: 100%">
+    <thead>
+    <tr>
+        <th>Sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.qty}"></td>
+        <td th:text="${item.price}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    Tổng tiền:
+    <b th:text="${total}"></b> ₩
+</p>
+
+<p>Cảm ơn bạn đã mua hàng ❤️</p>
+
+</body>
+</html>
