@@ -1,5 +1,6 @@
 package com.example.FirstProject.service;
 
+import com.example.FirstProject.client.DiflowFeignClient;
 import com.example.FirstProject.dto.DiflowRequestHeaderVO;
 import com.example.FirstProject.dto.DiflowRequestVO;
 import com.example.FirstProject.dto.PersonBodyVO;
@@ -10,16 +11,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class SocketCoreService {
 
-    public void handle(DiflowRequestVO<PersonBodyVO> request) {
-        DiflowRequestHeaderVO header = new DiflowRequestHeaderVO();
-        header.setCid("123");
-        PersonBodyVO personBodyVO = new PersonBodyVO("nam",12);
+    private final DiflowFeignClient diflowFeignClient;
 
-        DiflowRequestVO<PersonBodyVO> request1 =
+    public SocketCoreService(DiflowFeignClient diflowFeignClient) {
+        this.diflowFeignClient = diflowFeignClient;
+    }
+
+    public void handle(DiflowRequestVO<PersonBodyVO> request) {
+        DiflowRequestHeaderVO inputHeader = request.getHeader();
+        DiflowRequestHeaderVO header = DiflowRequestHeaderVO.builder()
+                .cid(inputHeader.getCid())
+                .tid(inputHeader.getTid())
+                .tgt(inputHeader.getTgt())
+                .build();
+
+        PersonBodyVO inputBody = request.getBody();
+        PersonBodyVO body = PersonBodyVO.builder()
+                .ten(inputBody.getTen())
+                .tuoi(inputBody.getTuoi())
+                .build();
+
+        DiflowRequestVO<PersonBodyVO> outboundRequest =
                 DiflowRequestVO.<PersonBodyVO>builder()
                         .header(header)
-                        .body(personBodyVO)
+                        .body(body)
                         .build();
-        log.info(String.valueOf(request1));
+
+        log.info("Calling external service with request: {}", outboundRequest);
+        diflowFeignClient.callSocket(outboundRequest);
     }
 }
