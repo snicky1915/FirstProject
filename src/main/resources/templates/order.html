@@ -1,39 +1,42 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Thông báo đơn hàng</title>
+    <meta charset="UTF-8" />
+    <title>Order XHTML Example</title>
 </head>
-<body style="font-family: Arial">
+<body style="font-family: Arial;">
+<h2>
+    Xin chao
+    <span th:text="${customerName}">Cuong</span>
+</h2>
 
-<h2>Xin chào <span th:text="${customerName}"></span> 👋</h2>
-
-<p>Đơn hàng của bạn đã được xác nhận.</p>
+<p>Day la vi du XHTML: van la HTML tags, nhung cu phap la XML hop le.</p>
 
 <table border="1" cellpadding="8" cellspacing="0"
-       style="border-collapse: collapse; width: 100%">
+       style="border-collapse: collapse; width: 100%;">
     <thead>
     <tr>
-        <th>Sản phẩm</th>
-        <th>Số lượng</th>
-        <th>Giá</th>
+        <th>San pham</th>
+        <th>So luong</th>
+        <th>Gia</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${items}">
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.qty}"></td>
-        <td th:text="${item.price}"></td>
+        <td th:text="${item.name}">Sample Product</td>
+        <td th:text="${item.qty}">1</td>
+        <td th:text="${item.price}">0</td>
     </tr>
     </tbody>
 </table>
 
 <p>
-    Tổng tiền:
-    <b th:text="${total}"></b> ₩
+    Tong tien:
+    <strong th:text="${total}">0</strong>
+    KRW
 </p>
 
-<p>Cảm ơn bạn đã mua hàng ❤️</p>
-
+<br />
 </body>
 </html>

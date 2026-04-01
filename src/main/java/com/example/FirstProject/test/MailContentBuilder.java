@@ -1,5 +1,6 @@
 package com.example.FirstProject.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.context.Context;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class MailContentBuilder {
 
     private final SpringTemplateEngine templateEngine;
@@ -17,7 +19,7 @@ public class MailContentBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public String buildOrderMail() {
+    public String buildOrderXhtml() {
         Context context = new Context();
         context.setVariable("customerName", "Cuong");
         context.setVariable("total", 250000);
@@ -29,6 +31,8 @@ public class MailContentBuilder {
 
         context.setVariable("items", items);
 
-        return templateEngine.process("order", context);
+        String xhtml = templateEngine.process("order", context);
+        log.info("Rendered order XHTML:\n{}", xhtml);
+        return xhtml;
     }
 }

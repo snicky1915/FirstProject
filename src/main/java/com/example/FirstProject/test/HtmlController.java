@@ -14,9 +14,8 @@ public class HtmlController {
         this.htmlRenderService = htmlRenderService;
     }
 
-    @GetMapping(produces = "text/html;charset=UTF-8")
+    @GetMapping(produces = "application/xhtml+xml;charset=UTF-8")
     public String getHtml() {
-        return htmlRenderService.buildOrderMail();
+        return htmlRenderService.buildOrderXhtml();
     }
 }
-
