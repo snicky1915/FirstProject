@@ -4,12 +4,13 @@ import com.example.FirstProject.client.DiflowFeignClient;
 import com.example.FirstProject.dto.DiflowRequestHeaderVO;
 import com.example.FirstProject.dto.DiflowRequestVO;
 import com.example.FirstProject.dto.PersonBodyVO;
+import com.example.FirstProject.scheduler.ExecutableService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class SocketCoreService {
+public class SocketCoreService implements ExecutableService {
 
     private final DiflowFeignClient diflowFeignClient;
 
@@ -39,5 +40,12 @@ public class SocketCoreService {
 
         log.info("Calling external service with request: {}", outboundRequest);
         diflowFeignClient.callSocket(outboundRequest);
+    }
+
+    @Override
+    public String execute() {
+        String message = "SocketCoreService executed. No default payload configured.";
+        log.info(message);
+        return message;
     }
 }

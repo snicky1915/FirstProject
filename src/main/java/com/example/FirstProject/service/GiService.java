@@ -6,15 +6,18 @@ import com.example.FirstProject.entity.GiHistory;
 import com.example.FirstProject.repository.ProductRepository;
 import com.example.FirstProject.repository.GiHistoryRepository;
 import com.example.FirstProject.repository.GiRepository;
+import com.example.FirstProject.scheduler.ExecutableService;
 import com.example.FirstProject.state.CrudState;
 import com.example.FirstProject.state.GiStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class GiService extends CrudService<Gi, GiHistory> {
+@Slf4j
+public class GiService extends CrudService<Gi, GiHistory> implements ExecutableService {
 
     private final GiRepository giRepository;
     private final ProductRepository productRepository;
@@ -60,5 +63,13 @@ public class GiService extends CrudService<Gi, GiHistory> {
         } catch (Exception e) {
             return "FAIL: " + e.getMessage();
         }
+    }
+
+    @Override
+    public String execute() {
+        long totalGi = giRepository.count();
+        String message = "GiService executed. Total GI records: " + totalGi;
+        log.info(message);
+        return message;
     }
 }

@@ -7,13 +7,16 @@ import com.example.FirstProject.entity.User;
 import com.example.FirstProject.entity.UserHistory;
 import com.example.FirstProject.repository.UserHistoryRepository;
 import com.example.FirstProject.repository.UserRepository;
+import com.example.FirstProject.scheduler.ExecutableService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserService extends CrudService<User,UserHistory> {
+@Slf4j
+public class UserService extends CrudService<User,UserHistory> implements ExecutableService {
 
 //    @Autowired
 //    public User createUser(User user){
@@ -81,6 +84,14 @@ public class UserService extends CrudService<User,UserHistory> {
             }
         }
         return null; // login thất bại
+    }
+
+    @Override
+    public String execute() {
+        long totalUsers = userRepository.count();
+        String message = "UserService executed. Total users: " + totalUsers;
+        log.info(message);
+        return message;
     }
 
 }

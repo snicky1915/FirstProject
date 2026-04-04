@@ -5,6 +5,8 @@ import com.example.FirstProject.entity.Stock;
 import com.example.FirstProject.entity.StockHistory;
 import com.example.FirstProject.repository.StockHistoryRepository;
 import com.example.FirstProject.repository.StockRepository;
+import com.example.FirstProject.scheduler.ExecutableService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class StockService extends CrudService<Stock, StockHistory> {
+@Slf4j
+public class StockService extends CrudService<Stock, StockHistory> implements ExecutableService {
 
     private final StockRepository stockRepository;
     private final StockHistoryRepository stockHistoryRepository;
@@ -82,6 +85,14 @@ public class StockService extends CrudService<Stock, StockHistory> {
                 .build();
         history.setAction(action);
         stockHistoryRepository.save(history);
+    }
+
+    @Override
+    public String execute() {
+        long totalStocks = stockRepository.count();
+        String message = "StockService executed. Total stock rows: " + totalStocks;
+        log.info(message);
+        return message;
     }
 
 }

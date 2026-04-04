@@ -1,5 +1,6 @@
 package com.example.FirstProject.test;
 
+import com.example.FirstProject.scheduler.ExecutableService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class MailContentBuilder {
+public class MailContentBuilder implements ExecutableService {
 
     private final SpringTemplateEngine templateEngine;
 
@@ -34,5 +35,10 @@ public class MailContentBuilder {
         String xhtml = templateEngine.process("order", context);
         log.info("Rendered order XHTML:\n{}", xhtml);
         return xhtml;
+    }
+
+    @Override
+    public String execute() {
+        return buildOrderXhtml();
     }
 }

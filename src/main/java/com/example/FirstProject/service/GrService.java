@@ -7,15 +7,18 @@ import com.example.FirstProject.entity.GrHistory;
 import com.example.FirstProject.repository.ProductRepository;
 import com.example.FirstProject.repository.GrHistoryRepository;
 import com.example.FirstProject.repository.GrRepository;
+import com.example.FirstProject.scheduler.ExecutableService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 
 @Service
-public class GrService extends CrudService<Gr, GrHistory> {
+@Slf4j
+public class GrService extends CrudService<Gr, GrHistory> implements ExecutableService {
 
     private final GrRepository grRepository;
     private final ProductRepository productRepository;
@@ -61,5 +64,13 @@ public class GrService extends CrudService<Gr, GrHistory> {
         } catch (Exception e) {
             return "FAIL: " + e.getMessage();
         }
+    }
+
+    @Override
+    public String execute() {
+        long totalGr = grRepository.count();
+        String message = "GrService executed. Total GR records: " + totalGr;
+        log.info(message);
+        return message;
     }
 }
