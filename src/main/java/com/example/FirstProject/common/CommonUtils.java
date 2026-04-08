@@ -30,12 +30,16 @@ public class CommonUtils {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Dung cho String khi can kiem tra null, rong hoac chi chua khoang trang.
+    // =========================
+    // Common validation methods
+    // =========================
+
+    // Dung khi can kiem tra String co null, rong, hoac chi gom khoang trang.
     public boolean isBlank(String value) {
         return value == null || value.trim().isEmpty();
     }
 
-    // Dung cho bien/object khi can kiem tra null hoac rong.
+    // Dung khi can kiem tra mot bien co null hoac rong theo tung kieu du lieu.
     public boolean isEmpty(Object value) {
         if (value == null) {
             return true;
@@ -60,6 +64,11 @@ public class CommonUtils {
         return false;
     }
 
+    // ======================
+    // Common query methods
+    // ======================
+
+    // Thuc thi query search va tra ket qua ve duoi dang JSON-friendly.
     public Map<String, Object> executeQuery(String query) {
         String normalizedQuery = normalizeQuery(query);
         String queryPrefix = extractQueryPrefix(normalizedQuery);
@@ -68,7 +77,7 @@ public class CommonUtils {
             throw new RuntimeException("Hien tai chi ho tro query doc du lieu/search");
         }
 
-        // JdbcTemplate tra ve danh sach row duoi dang key-value, phu hop de response JSON.
+        // JdbcTemplate tra ve danh sach row duoi dang key-value, de controller tra JSON de dang.
         List<Map<String, Object>> data = jdbcTemplate.queryForList(normalizedQuery);
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("queryType", "READ");
@@ -77,6 +86,7 @@ public class CommonUtils {
         return response;
     }
 
+    // Chuan hoa query dau vao va chan truong hop gui nhieu query trong mot request.
     private String normalizeQuery(String query) {
         if (isBlank(query)) {
             throw new RuntimeException("Query khong duoc de trong");
@@ -84,7 +94,7 @@ public class CommonUtils {
 
         String normalizedQuery = query.trim();
 
-        // Loai bo dau ';' o cuoi va chan viec gui nhieu query trong mot request.
+        // Loai bo dau ';' o cuoi de nguoi dung co the gui query linh hoat hon.
         String withoutTrailingSemicolon = normalizedQuery.replaceAll(";+$", "").trim();
         if (withoutTrailingSemicolon.contains(";")) {
             throw new RuntimeException("Chi duoc phep thuc thi 1 query moi lan goi");
@@ -93,13 +103,13 @@ public class CommonUtils {
         return withoutTrailingSemicolon;
     }
 
+    // Lay keyword dau tien cua query de xac dinh query co nam trong nhom duoc phep hay khong.
     private String extractQueryPrefix(String query) {
         String[] parts = query.split("\\s+", 2);
         if (parts.length == 0 || parts[0].isBlank()) {
             throw new RuntimeException("Khong xac dinh duoc loai query");
         }
 
-        // Lay tu khoa dau tien de xac dinh day co phai query doc du lieu hay khong.
         return parts[0].toLowerCase(Locale.ROOT);
     }
 }
