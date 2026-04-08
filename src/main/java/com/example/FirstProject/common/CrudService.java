@@ -1,25 +1,26 @@
 package com.example.FirstProject.common;
 
 import com.example.FirstProject.state.CrudState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class CrudService<T, H> {
+@Slf4j
+public class CrudService<T extends BaseEntity, H extends BaseHistoryEntity> {
 
-    private final JpaRepository<T, Long> mainRepository;
-    private final JpaRepository<H, Long> historyRepository;
+    private final BaseRepository<T, Long> mainRepository;
+    private final BaseHistoryRepository<H, Long> historyRepository;
     private final Class<H> historyClass;
     private final Function<T, Long> idGetter;
 
-    public CrudService(JpaRepository<T, Long> mainRepository,
-                       JpaRepository<H, Long> historyRepository,
+    public CrudService(BaseRepository<T, Long> mainRepository,
+                       BaseHistoryRepository<H, Long> historyRepository,
                        Class<H> historyClass,
-                       Function<T, Long> idGetter) { // <-- sửa dấu )
+                       Function<T, Long> idGetter) {
         this.mainRepository = mainRepository;
         this.historyRepository = historyRepository;
         this.historyClass = historyClass;
@@ -39,7 +40,7 @@ public class CrudService<T, H> {
             saveHistory(saved, "INSERT");
             return CrudState.SUCCESS.name();
         } catch (Exception e) {
-            return "FAIL: " + e.getMessage();
+            return fail("CREATE", e);
         }
     }
 
@@ -54,7 +55,7 @@ public class CrudService<T, H> {
             saveHistory(updated, "UPDATE");
             return CrudState.SUCCESS.name();
         } catch (Exception e) {
-            return "FAIL: " + e.getMessage();
+            return fail("UPDATE", e);
         }
     }
 
@@ -78,6 +79,9 @@ public class CrudService<T, H> {
     @Transactional
     public String deleteById(Long id) {
         try {
+            if (id == null) {
+                throw new IllegalArgumentException("ID bị null cho thao tác DELETE");
+            }
             Optional<T> existingOpt = mainRepository.findById(id);
             if (existingOpt.isEmpty()) {
                 return "FAIL: Không tìm thấy ID " + id + " để DELETE";
@@ -87,7 +91,7 @@ public class CrudService<T, H> {
             saveHistory(existing, "DELETE");
             return CrudState.SUCCESS.name();
         } catch (Exception e) {
-            return "FAIL: " + e.getMessage();
+            return fail("DELETE", e);
         }
     }
 
@@ -97,11 +101,24 @@ public class CrudService<T, H> {
         return id;
     }
 
-    protected void saveHistory(Object source, String action) throws Exception {
+    protected void saveHistory(T source, String action) throws Exception {
         H h = historyClass.getDeclaredConstructor().newInstance();
         BeanUtils.copyProperties(source, h);
-        Method setAction = historyClass.getMethod("setAction", String.class);
-        setAction.invoke(h, action);
+        h.setAction(action);
+        h.setChangedBy(resolveChangedBy(source));
         historyRepository.save(h);
+    }
+
+    private String resolveChangedBy(T source) {
+        if (source.getFinalUpdateId() != null && !source.getFinalUpdateId().isBlank()) {
+            return source.getFinalUpdateId();
+        }
+        return source.getCreatedId();
+    }
+
+    private String fail(String action, Exception e) {
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        log.error("{} failed in CrudService", action, e);
+        return "FAIL: " + e.getMessage();
     }
 }
