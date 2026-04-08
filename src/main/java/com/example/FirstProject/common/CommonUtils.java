@@ -3,6 +3,8 @@ package com.example.FirstProject.common;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +30,36 @@ public class CommonUtils {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // Dung cho String khi can kiem tra null, rong hoac chi chua khoang trang.
+    public boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    // Dung cho bien/object khi can kiem tra null hoac rong.
+    public boolean isEmpty(Object value) {
+        if (value == null) {
+            return true;
+        }
+
+        if (value instanceof String stringValue) {
+            return stringValue.isEmpty();
+        }
+
+        if (value instanceof Collection<?> collectionValue) {
+            return collectionValue.isEmpty();
+        }
+
+        if (value instanceof Map<?, ?> mapValue) {
+            return mapValue.isEmpty();
+        }
+
+        if (value.getClass().isArray()) {
+            return Array.getLength(value) == 0;
+        }
+
+        return false;
+    }
+
     public Map<String, Object> executeQuery(String query) {
         String normalizedQuery = normalizeQuery(query);
         String queryPrefix = extractQueryPrefix(normalizedQuery);
@@ -46,10 +78,11 @@ public class CommonUtils {
     }
 
     private String normalizeQuery(String query) {
-        String normalizedQuery = query == null ? "" : query.trim();
-        if (normalizedQuery.isEmpty()) {
+        if (isBlank(query)) {
             throw new RuntimeException("Query khong duoc de trong");
         }
+
+        String normalizedQuery = query.trim();
 
         // Loai bo dau ';' o cuoi va chan viec gui nhieu query trong mot request.
         String withoutTrailingSemicolon = normalizedQuery.replaceAll(";+$", "").trim();
